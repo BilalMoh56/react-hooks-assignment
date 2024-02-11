@@ -6,26 +6,27 @@ function ScoreBoard() {
  
   return (
     <div className="container">
-      <div className="row  text-center">
+      <div className="row text-center">
         <h1>ScoreBoard</h1>
       </div>
       <div className="row">
         <div className="col-md-4 m-auto">
-          <div class="input-group mb-3">
-            {/* Modify input so that it is either connected to a ref or some kind of input state */}
+          <div className="input-group mb-3">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="New Player Name"
               aria-label="New Player Name"
               aria-describedby="addPlayer"
+              value={newPlayer}
+              onChange={(e) => setNewPlayer(e.target.value)}
               required
             />
-            {/* add Add Player event handling to this button */}
             <button
-              class="btn btn-outline-primary"
+              className="btn btn-outline-primary"
               type="button"
               id="addPlayer"
+              onClick={addPlayer}
             >
               Add Player
             </button>
@@ -33,22 +34,20 @@ function ScoreBoard() {
         </div>
       </div>
       <div className="row m-auto">
-        {players.map((player) => {
-          return (
-            <div className="col-md-4">
-              {/* Make sure to pass the unique id as a key */}
-              <Player
-                key={player.id}
-                name={player.name}
-                // Anonymous arrow function that we can hold off activating
-                // until the user clicks a button inside of the Player component
-              />
-            </div>
-          );
-        })}
+        {players.map((player) => (
+          <div key={player.id} className="col-md-4">
+            <Player
+              key={player.id}
+              name={player.name}
+              score={player.score}
+              increment={() => updateScore(player.id, true)}
+              decrement={() => updateScore(player.id, false)}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default ScoreBoard;
